@@ -2,7 +2,7 @@
 
 <p align="center">
   <b>Evaluation budget and optimistic bias in evolutionary wrapper feature selection</b><br>
-  Code, data and results for the study by Muhammad Idrees and Adnan Amin
+  A controlled experiment on 12 public datasets and 1,270 search runs
 </p>
 
 <p align="center">
@@ -126,62 +126,51 @@ health or personal data.
 | **Matched random search** | Random search that starts from the same subset sizes as GA and PSO. | Optimism ranking unchanged |
 | **Duplicates kept** | Repeats three datasets without removing duplicate rows. | Test plateau unchanged |
 
-## Reproduce the study
+## A closer look
 
-**1. Install**
+<p align="center">
+  <img src="results/figures/paper_fig_examples.png" width="820" alt="Inner and test accuracy on four datasets">
+</p>
 
-```bash
-pip install -r requirements.txt
-```
+Dashed lines show what each search believed, solid lines what it actually achieved on unseen
+data. On **Sonar** the population methods peaked early and then declined while their own scores
+kept rising. On **Madelon** the genetic algorithm's inner score climbed from about 0.58 to 0.67
+while its test score barely moved. **Waveform** shows the typical plateau after about 1,000
+evaluations, and **Ionosphere** is the honest exception, still improving at 4,000.
 
-**2. Prepare the data and run** (from the project root)
+<p align="center">
+  <img src="results/figures/paper_fig_noise.png" width="620" alt="Share of noise features selected on Waveform">
+</p>
 
-```bash
-python src/prepare_data.py
-python src/run_experiments.py
-python src/run_experiments.py --classifier logreg
-python src/analysis.py
-python src/analysis.py --tag logreg
-python src/extra_analysis.py
-python src/extra_analysis.py --tag logreg
-```
+Waveform contains 19 features that are pure noise by design, which makes it possible to look
+inside the selected subsets. The genetic algorithm removed most of them by 1,000
+evaluations, yet its optimism kept growing afterwards while its test accuracy stayed flat.
+The late gains came from fitting the validation folds, not from better subsets.
 
-The main study takes about 3 hours on an eight-core laptop. Runs are saved one file at a
-time, so the script can be stopped and restarted without losing work.
+## Why it matters
 
-**3. Optional checks**
+| For | Takeaway |
+|---|---|
+| Anyone reporting results | A score used to choose a model is not a fair measure of that model. Report accuracy on data the search never saw. |
+| Anyone setting a search budget | More evaluations are not free accuracy. Check held-out performance at a few budgets and stop where it levels off. |
+| Anyone proposing a new optimiser | Compare against random search at the same number of evaluations. If the new method cannot beat it on held-out data, it adds little. |
+| Anyone running it in practice | In these experiments, stopping GA and PSO at 1,000 evaluations saved three quarters of the compute with no loss in test accuracy. |
 
-```bash
-python src/verify.py
-python src/run_experiments.py --methods random_bern
-python src/run_experiments.py --with_duplicates
-python src/revision_analysis.py
-python src/margin_sensitivity.py
-```
+## Built with
 
-`verify.py` runs the leakage and reproducibility checks in about one minute.
-
-**Using the saved results instead of rerunning**
-
-All per-run results are included as zip files in `results/`. Unzip them in place and run the
-analysis scripts directly:
-
-```bash
-cd results
-unzip -q runs_knn.zip
-unzip -q runs_logreg.zip
-unzip -q runs_duplicates.zip
-cd ..
-python src/analysis.py
-python src/analysis.py --tag logreg
-python src/extra_analysis.py
-python src/extra_analysis.py --tag logreg
-```
+| Area | Tools |
+|---|---|
+| Language | Python 3.12 |
+| Machine learning | scikit-learn (k-nearest neighbours, logistic regression, PCA, mutual information) |
+| Search algorithms | Genetic algorithm, binary particle swarm, random search and forward selection, written from scratch in NumPy |
+| Statistics | SciPy: Wilcoxon, Friedman, equivalence tests (TOST), Hodges-Lehmann intervals, Holm correction, bootstrap |
+| Data and plots | pandas, Matplotlib with a colour-blind-safe palette |
+| Scale | joblib parallel runs, resumable task files, fixed seeds for exact reproducibility |
 
 ## Repository layout
 
 ```
-configs/experiment.yaml     every setting used in the paper
+configs/experiment.yaml     every setting of the experiment
 datasets/clean/             the 12 cleaned datasets
 src/
   prepare_data.py           audit and cleaning of the raw data
@@ -189,28 +178,14 @@ src/
   baselines.py              all features, PCA and mutual-information filter
   run_experiments.py        the evaluation protocol
   analysis.py               main tables, statistics and figures
-  extra_analysis.py         equivalence tests, sensitivity analysis, paper figures
+  extra_analysis.py         equivalence tests, sensitivity analysis, figures
   revision_analysis.py      matched random search and duplicate-row checks
   margin_sensitivity.py     equivalence tests with other margins
   verify.py                 leakage and reproducibility checks
 results/
-  tables/  stats/           every number reported in the paper
-  figures/                  the three figures used in the paper
+  tables/  stats/           every result table and statistical test
+  figures/                  the three main figures
   *.zip                     one result file per dataset, split and method
-```
-
-## Citation
-
-The paper is in preparation for submission. Until it is published, please cite it as:
-
-```bibtex
-@unpublished{idrees2026search,
-  author = {Idrees, Muhammad and Amin, Adnan},
-  title  = {Search longer, estimate worse: evaluation budget and optimistic bias
-            in evolutionary wrapper feature selection},
-  year   = {2026},
-  note   = {Manuscript in preparation}
-}
 ```
 
 ## Contact

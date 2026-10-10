@@ -1,0 +1,12 @@
+comparison,mean_difference,ci90_low,ci90_high,hodges_lehmann,hl90_low,hl90_high,p_tost,equivalent_by_ci,p_tost_holm,equivalent_holm
+GA: test BA at 4000 vs 1000 evals,-0.00088,-0.00411,0.00215,-0.00053,-0.0039,0.00287,0.00122,True,0.01221,True
+BPSO: test BA at 4000 vs 1000 evals,0.00169,-0.00022,0.00356,0.0017,-0.00082,0.00422,0.00024,True,0.00269,True
+Random search: test BA at 4000 vs 1000 evals,0.0023,-0.00327,0.00864,0.00176,-0.00481,0.00564,0.01343,True,0.12085,False
+SFS: test BA at 4000 vs 1000 evals,0.05161,-0.00019,0.11216,0.0,0.0,0.1291,0.12817,False,0.64087,False
+GA vs Random search at 4000 evals,0.00194,-0.00666,0.00978,0.00399,-0.0065,0.01114,0.08813,False,0.52979,False
+BPSO vs Random search at 4000 evals,-0.00251,-0.01279,0.00649,0.00027,-0.01126,0.00883,0.05493,False,0.43945,False
+SFS vs Random search at 4000 evals,0.00516,-0.04098,0.06137,-0.01011,-0.03417,0.00997,0.51514,False,0.67871,False
+GA (4000 evals) vs MI filter,0.00635,0.00074,0.01216,0.00579,-0.00056,0.01279,0.16968,False,0.67871,False
+BPSO (4000 evals) vs MI filter,0.0019,-0.00538,0.00939,0.00031,-0.00813,0.01164,0.07568,False,0.52979,False
+Random search (4000 evals) vs MI filter,0.00441,-0.00362,0.01244,0.0045,-0.00455,0.01356,0.16968,False,0.67871,False
+SFS (4000 evals) vs MI filter,0.00957,-0.03399,0.06247,-0.00211,-0.01814,0.01331,0.28467,False,0.67871,False

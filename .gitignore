@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.DS_Store
+logs/
+results/runs/
+results/runs_logreg/
+results/runs_dups/
+results/runs_quick/
+results/runs_logreg_quick/
+results/runs_quick_dups/
+results/verify/
+**/*_quick*

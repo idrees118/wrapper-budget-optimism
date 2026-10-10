@@ -1,0 +1,13 @@
+comparison,median_difference,rank_biserial,p_raw,p_holm
+GA (4000 evals) vs All features,0.01023,0.87179,0.00488,0.05859
+GA (4000 evals) vs PCA,0.01225,0.51282,0.12939,1.0
+GA (4000 evals) vs MI filter,0.00354,0.51282,0.12939,1.0
+BPSO (4000 evals) vs All features,0.01002,0.5641,0.09229,0.92285
+BPSO (4000 evals) vs PCA,0.0099,0.4359,0.20361,1.0
+BPSO (4000 evals) vs MI filter,-0.00189,0.0,1.0,1.0
+Random search (4000 evals) vs All features,0.00939,0.69231,0.03418,0.37598
+Random search (4000 evals) vs PCA,0.01266,0.46154,0.17627,1.0
+Random search (4000 evals) vs MI filter,0.00446,0.28205,0.42383,1.0
+SFS (4000 evals) vs All features,-0.00438,0.02564,0.96973,1.0
+SFS (4000 evals) vs PCA,0.00479,0.05128,0.90967,1.0
+SFS (4000 evals) vs MI filter,-0.00031,-0.15385,0.67725,1.0

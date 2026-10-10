@@ -1,0 +1,77 @@
+# Experiment settings. Every number used in the paper comes from this file.
+
+seed: 2026                 # master seed; all other seeds are derived from it
+
+# Datasets (names must match the CSV files in datasets/clean/)
+datasets:
+  - wine_red
+  - vehicle
+  - german_credit
+  - ionosphere
+  - waveform
+  - qsar_biodeg
+  - spambase
+  - sonar
+  - libras
+  - hill_valley
+  - semeion
+  - madelon
+
+# Outer evaluation: repeated stratified hold-out
+outer_repeats: 10          # number of independent train/test splits per dataset
+test_size: 0.30            # 30% of rows held out, never seen by any search
+
+# Inner evaluation: used ONLY inside the training part to score feature subsets
+inner_folds: 5
+
+# Classifier used to score every subset (main study: knn)
+classifier: knn
+knn_neighbors: 5
+
+# Robustness check: the same protocol with a different classifier on a subset of datasets.
+# Run with:  python src/run_experiments.py --classifier logreg
+robustness:
+  classifier: logreg       # L2-regularised logistic regression, C = 1 (scikit-learn default)
+  # 8 datasets: with Wilcoxon on n = 8 the smallest possible two-sided p is 0.0078,
+  # so a perfectly consistent effect can still pass Holm correction (n = 6 could not).
+  datasets: [sonar, ionosphere, german_credit, qsar_biodeg, wine_red, waveform, vehicle, libras]
+
+# Fitness (lower is better): alpha * (1 - balanced accuracy) + (1 - alpha) * (selected / total)
+# alpha = 0.99 is the most common choice in the metaheuristic feature-selection literature.
+alpha: 0.99
+
+# Search budget, counted in fitness evaluations (one evaluation = one inner-CV score of one subset)
+max_evaluations: 4000
+checkpoints: [100, 250, 500, 1000, 2000, 4000]
+
+# Search methods that get budget curves
+search_methods: [ga, pso, random, sfs]
+
+# Population-based settings (shared by GA and PSO so the comparison is fair)
+population_size: 30
+
+ga:
+  crossover_rate: 0.8      # probability of uniform crossover
+  tournament_size: 2
+  elite: 1                 # best individual copied unchanged to the next generation
+  # mutation rate = 1 / number of features (set in code)
+
+pso:
+  w_start: 0.9             # inertia at the start of the budget
+  w_end: 0.4               # inertia at the end of the budget
+  c1: 2.0                  # pull toward the particle's own best
+  c2: 2.0                  # pull toward the swarm's best
+  v_max: 6.0               # velocity clamp
+
+# No-search baselines (fitted once per outer split, tuned with the same inner folds)
+baselines: [all_features, pca, mi_filter]
+pca_variance_grid: [0.80, 0.90, 0.95, 0.99]
+mi_fraction_grid: [0.05, 0.10, 0.25, 0.50, 0.75]
+
+# Datasets with known noise features (used for the noise-selection analysis)
+# Waveform v2: attributes 22-40 are pure noise (0-based columns f21..f39)
+known_noise:
+  waveform: [21, 39]       # inclusive range of 0-based original column indices
+
+# Parallel jobs (-1 = use all CPU cores)
+n_jobs: -1

@@ -1,0 +1,37 @@
+subset,n_datasets,method,test,median_difference,rank_biserial,p_raw,p_holm_within_subset
+all 12 datasets,12,GA,gap 4000 vs 100,0.02925,1.0,0.00049,0.00439
+all 12 datasets,12,GA,test BA 4000 vs 1000,-0.00034,-0.10256,0.79102,1.0
+all 12 datasets,12,BPSO,gap 4000 vs 100,0.01437,1.0,0.00049,0.00439
+all 12 datasets,12,BPSO,test BA 4000 vs 1000,0.00183,0.4359,0.20361,0.81445
+all 12 datasets,12,Random search,gap 4000 vs 100,0.00811,0.53846,0.10986,0.54932
+all 12 datasets,12,Random search,test BA 4000 vs 1000,0.00392,0.20513,0.56934,1.0
+all 12 datasets,12,SFS,gap 4000 vs 100,0.00938,0.81818,0.01367,0.0957
+all 12 datasets,12,SFS,test BA 4000 vs 1000,0.0,0.6,0.375,1.0
+all 12 datasets,12,all four,Friedman at 4000,,0.24167,0.03356,0.20134
+without hill_valley,11,GA,gap 4000 vs 100,0.02761,1.0,0.00098,0.00879
+without hill_valley,11,GA,test BA 4000 vs 1000,0.00096,0.06061,0.89844,1.0
+without hill_valley,11,BPSO,gap 4000 vs 100,0.01606,1.0,0.00098,0.00879
+without hill_valley,11,BPSO,test BA 4000 vs 1000,0.00175,0.42424,0.24023,0.96094
+without hill_valley,11,Random search,gap 4000 vs 100,0.00482,0.48485,0.1748,0.87402
+without hill_valley,11,Random search,test BA 4000 vs 1000,0.00419,0.27273,0.46484,1.0
+without hill_valley,11,SFS,gap 4000 vs 100,0.00865,0.81818,0.01953,0.13672
+without hill_valley,11,SFS,test BA 4000 vs 1000,0.0,0.6,0.375,1.0
+without hill_valley,11,all four,Friedman at 4000,,0.26612,0.03234,0.19402
+without madelon,11,GA,gap 4000 vs 100,0.02761,1.0,0.00098,0.00879
+without madelon,11,GA,test BA 4000 vs 1000,0.00096,-0.0303,0.96582,1.0
+without madelon,11,BPSO,gap 4000 vs 100,0.01606,1.0,0.00098,0.00879
+without madelon,11,BPSO,test BA 4000 vs 1000,0.00175,0.39394,0.27832,1.0
+without madelon,11,Random search,gap 4000 vs 100,0.01141,0.54545,0.12305,0.61523
+without madelon,11,Random search,test BA 4000 vs 1000,0.00365,0.12121,0.76465,1.0
+without madelon,11,SFS,gap 4000 vs 100,0.01011,1.0,0.00195,0.01367
+without madelon,11,SFS,test BA 4000 vs 1000,0.0,0.33333,0.75,1.0
+without madelon,11,all four,Friedman at 4000,,0.28595,0.02402,0.14411
+without both,10,GA,gap 4000 vs 100,0.02526,1.0,0.00195,0.01758
+without both,10,GA,test BA 4000 vs 1000,0.00132,0.16364,0.69531,1.0
+without both,10,BPSO,gap 4000 vs 100,0.0183,1.0,0.00195,0.01758
+without both,10,BPSO,test BA 4000 vs 1000,0.0013,0.38182,0.32227,1.0
+without both,10,Random search,gap 4000 vs 100,0.00811,0.49091,0.19336,0.9668
+without both,10,Random search,test BA 4000 vs 1000,0.00392,0.2,0.625,1.0
+without both,10,SFS,gap 4000 vs 100,0.0107,1.0,0.00391,0.02734
+without both,10,SFS,test BA 4000 vs 1000,0.0,0.33333,0.75,1.0
+without both,10,all four,Friedman at 4000,,0.304,0.02774,0.16642

@@ -1,0 +1,9 @@
+method,variable,spearman_rho_vs_log_n_over_p,p_raw,p_holm
+GA,saturation_budget,-0.08801,0.78563,1.0
+GA,final_gap,-0.75524,0.00451,0.03607
+BPSO,saturation_budget,-0.21352,0.5052,1.0
+BPSO,final_gap,-0.36364,0.24527,1.0
+Random search,saturation_budget,-0.29281,0.35569,1.0
+Random search,final_gap,-0.17483,0.58682,1.0
+SFS,saturation_budget,-0.38145,0.22115,1.0
+SFS,final_gap,-0.3986,0.19934,1.0

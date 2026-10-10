@@ -1,0 +1,5 @@
+method,datasets_lower_at_final,mean_drop_from_peak,max_drop_from_peak
+GA,4,0.0025,0.0102
+BPSO,8,0.0074,0.015
+Random search,7,0.0031,0.0089
+SFS,1,0.0009,0.0074

@@ -1,0 +1,8 @@
+test,median_diff,r,p,p_holm
+gap growth 4000 vs 100 (random_bern),0.0143,0.97436,0.00098,0.00586
+test BA at 4000: random_bern vs random,-0.00163,-0.38462,0.26611,0.53223
+gap at 4000: random_bern vs random,-0.0008,0.07692,0.8501,0.8501
+test BA at 4000: random_bern vs ga,-0.0073,-0.92308,0.00244,0.01221
+gap at 4000: random_bern vs ga,-0.01997,-1.0,0.00049,0.00342
+test BA at 4000: random_bern vs pso,-0.00483,-0.53846,0.10986,0.32959
+gap at 4000: random_bern vs pso,-0.0087,-0.89744,0.00342,0.01367

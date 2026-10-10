@@ -1,0 +1,25 @@
+method,test,median_difference,rank_biserial,p_raw,p_holm
+GA,gap at 4000 vs gap at 100,0.02925,1.0,0.00049,0.01172
+GA,outer BA at 4000 vs 100,0.00664,1.0,0.00049,0.01172
+GA,outer BA at 4000 vs 250,0.00812,0.84615,0.00684,0.14355
+GA,outer BA at 4000 vs 500,0.00232,0.36364,0.32031,1.0
+GA,outer BA at 4000 vs 1000,-0.00034,-0.10256,0.79102,1.0
+GA,outer BA at 4000 vs 2000,0.00134,0.38462,0.26611,1.0
+BPSO,gap at 4000 vs gap at 100,0.01437,1.0,0.00049,0.01172
+BPSO,outer BA at 4000 vs 100,0.00519,0.46154,0.17627,1.0
+BPSO,outer BA at 4000 vs 250,0.00567,0.35897,0.30127,1.0
+BPSO,outer BA at 4000 vs 500,0.00116,0.28205,0.42383,1.0
+BPSO,outer BA at 4000 vs 1000,0.00183,0.4359,0.20361,1.0
+BPSO,outer BA at 4000 vs 2000,0.00034,0.30769,0.38037,1.0
+Random search,gap at 4000 vs gap at 100,0.00811,0.53846,0.10986,1.0
+Random search,outer BA at 4000 vs 100,0.00782,0.64103,0.05225,0.88818
+Random search,outer BA at 4000 vs 250,0.00223,0.48718,0.15137,1.0
+Random search,outer BA at 4000 vs 500,0.00226,0.35897,0.30127,1.0
+Random search,outer BA at 4000 vs 1000,0.00392,0.20513,0.56934,1.0
+Random search,outer BA at 4000 vs 2000,0.00207,0.15385,0.67725,1.0
+SFS,gap at 4000 vs gap at 100,0.00938,0.81818,0.01367,0.25977
+SFS,outer BA at 4000 vs 100,0.05968,0.87879,0.00684,0.14355
+SFS,outer BA at 4000 vs 250,0.00216,0.83333,0.03906,0.70312
+SFS,outer BA at 4000 vs 500,0.0,1.0,0.0625,1.0
+SFS,outer BA at 4000 vs 1000,0.0,0.6,0.375,1.0
+SFS,outer BA at 4000 vs 2000,0.0,1.0,0.5,1.0

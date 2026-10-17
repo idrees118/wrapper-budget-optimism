@@ -192,6 +192,3 @@ results/
 
 **Muhammad Idrees**, Institute of Management Sciences, Peshawar, Pakistan<br>
 [GitHub](https://github.com/idrees118) | [LinkedIn](https://www.linkedin.com/in/muhammad-idrees)
-
-The code is released under the MIT license. The datasets keep the licences of their
-original sources.

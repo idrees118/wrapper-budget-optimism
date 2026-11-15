@@ -1,10 +1,3 @@
-"""
-revision_summary.py - reads saved results only. From the project root:
-    python src/revision_summary.py
-Part 1: sensitivity grid (4 datasets, 5 splits) against the main-study baseline cell.
-Part 2: grey wolf (gwo) and whale (woa) against GA, BPSO, random and SFS on 12 datasets.
-Part 3: share of repeated subsets (cache hits) at 4,000 evaluations.
-"""
 import glob
 from pathlib import Path
 

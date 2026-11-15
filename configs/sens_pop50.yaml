@@ -1,0 +1,66 @@
+seed: 2026
+datasets:
+- sonar
+- ionosphere
+- german_credit
+- qsar_biodeg
+outer_repeats: 5
+test_size: 0.3
+inner_folds: 5
+classifier: knn
+knn_neighbors: 5
+robustness:
+  classifier: logreg
+  datasets:
+  - sonar
+  - ionosphere
+  - german_credit
+  - qsar_biodeg
+  - wine_red
+  - waveform
+  - vehicle
+  - libras
+alpha: 0.99
+max_evaluations: 4000
+checkpoints:
+- 100
+- 250
+- 500
+- 1000
+- 2000
+- 4000
+search_methods:
+- ga
+- pso
+- random
+population_size: 50
+ga:
+  crossover_rate: 0.8
+  tournament_size: 2
+  elite: 1
+pso:
+  w_start: 0.9
+  w_end: 0.4
+  c1: 2.0
+  c2: 2.0
+  v_max: 6.0
+baselines:
+- all_features
+- pca
+- mi_filter
+pca_variance_grid:
+- 0.8
+- 0.9
+- 0.95
+- 0.99
+mi_fraction_grid:
+- 0.05
+- 0.1
+- 0.25
+- 0.5
+- 0.75
+known_noise:
+  waveform:
+  - 21
+  - 39
+n_jobs: -1

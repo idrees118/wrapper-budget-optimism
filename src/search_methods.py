@@ -34,6 +34,7 @@ class Evaluator:
 
         self.count = 0
         self.cache = {}
+        self.cache_hits = 0
         self.best_mask = None
         self.best_fitness = np.inf
         self.best_inner_ba = np.nan
@@ -65,6 +66,8 @@ class Evaluator:
             ba = self._inner_ba(mask)
             fit = self.alpha * (1.0 - ba) + (1.0 - self.alpha) * mask.sum() / self.n_features
             self.cache[key] = (fit, ba)
+        else:
+            self.cache_hits += 1
         fit, ba = self.cache[key]
         self.count += 1
 
@@ -87,6 +90,7 @@ class Evaluator:
             "inner_ba": self.best_inner_ba,
             "fitness": self.best_fitness,
             "seconds": time.perf_counter() - self.start,
+            "cache_hits": self.cache_hits,
         })
 
     def finish(self):
@@ -234,7 +238,69 @@ def sequential_forward(ev, rng, cfg):
         current[best_j], current_fit = True, best_f
 
 
+# ---------------- 5. Binary grey wolf and whale optimisers (revision) ----------------
+
+def _sig(z):
+    return 1.0 / (1.0 + np.exp(-np.clip(10.0 * (z - 0.5), -50, 50)))
+
+
+def binary_gwo(ev, rng, cfg):
+    """Binary grey wolf optimiser, sigmoid form (Emary et al., 2016)."""
+    size, D = cfg["population_size"], ev.n_features
+    x = random_population(size, D, rng)
+    pos = x.astype(float)
+    fit = np.full(size, np.inf)
+    for i in range(size):
+        if ev.done:
+            return
+        fit[i] = ev.score(x[i])
+    while not ev.done:
+        for i in range(size):
+            if ev.done:
+                return
+            a = 2.0 * (1.0 - ev.count / ev.max_evals)
+            leaders = x[np.argsort(fit, kind="stable")[:3]].astype(float)
+            parts = []
+            for L in leaders:
+                A = 2.0 * a * rng.random(D) - a
+                C = 2.0 * rng.random(D)
+                parts.append(L - A * np.abs(C * L - pos[i]))
+            pos[i] = np.mean(parts, axis=0)
+            x[i] = repair(rng.random(D) < _sig(pos[i]), rng)
+            fit[i] = ev.score(x[i])
+
+
+def binary_woa(ev, rng, cfg):
+    """Binary whale optimiser, sigmoid form (Mafarja and Mirjalili, 2018)."""
+    size, D = cfg["population_size"], ev.n_features
+    x = random_population(size, D, rng)
+    pos = x.astype(float)
+    for i in range(size):
+        if ev.done:
+            return
+        ev.score(x[i])
+    while not ev.done:
+        for i in range(size):
+            if ev.done:
+                return
+            progress = ev.count / ev.max_evals
+            a, a2 = 2.0 * (1.0 - progress), -1.0 - progress
+            best = ev.best_mask.astype(float)
+            if rng.random() < 0.5:
+                A = 2.0 * a * rng.random(D) - a
+                C = 2.0 * rng.random(D)
+                ref = np.where(np.abs(A) < 1.0, best, pos[rng.integers(size)])
+                pos[i] = ref - A * np.abs(C * ref - pos[i])
+            else:
+                l = (a2 - 1.0) * rng.random() + 1.0
+                pos[i] = np.abs(best - pos[i]) * np.exp(l) * np.cos(2 * np.pi * l) + best
+            x[i] = repair(rng.random(D) < _sig(pos[i]), rng)
+            ev.score(x[i])
+
+
 SEARCH_METHODS = {
+    "gwo": binary_gwo,
+    "woa": binary_woa,
     "ga": genetic_algorithm,
     "pso": binary_pso,
     "random": random_search,

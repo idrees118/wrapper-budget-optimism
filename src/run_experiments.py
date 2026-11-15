@@ -61,12 +61,14 @@ def outer_score(cols, X_tr, y_tr, X_te, y_te, cfg):
     return balanced_accuracy_score(y_te, model.predict(scaler.transform(X_te[:, cols])))
 
 
-def run_task(dataset, repeat, method, cfg, out_dir, data_folder=None):
+def run_task(dataset, repeat, method, cfg, out_dir, data_folder=None, shuffle=False):
     out_file = out_dir / f"{dataset}__{method}__r{repeat}.csv"
     if out_file.exists():
         return "skipped"
 
     X, y, columns = load_clean(dataset, data_folder)
+    if shuffle:      # noise simulation: labels carry no signal, split stays stratified
+        y = np.random.default_rng(stable_seed(cfg["seed"], "shuffle", dataset)).permutation(y)
     train_idx, test_idx = outer_split(X, y, repeat, cfg)
     assert len(np.intersect1d(train_idx, test_idx)) == 0, "train and test overlap"
     X_tr, y_tr, X_te, y_te = X[train_idx], y[train_idx], X[test_idx], y[test_idx]
@@ -99,7 +101,7 @@ def run_task(dataset, repeat, method, cfg, out_dir, data_folder=None):
                          "n_noise": int(noise[cols].sum()) if noise is not None else np.nan,
                          "inner_ba": s["inner_ba"],
                          "outer_ba": outer_score(cols, X_tr, y_tr, X_te, y_te, cfg),
-                         "fitness": s["fitness"], "seconds": s["seconds"],
+                         "fitness": s["fitness"], "seconds": s["seconds"], "cache_hits": s["cache_hits"],
                          "selected": ";".join(columns[c] for c in cols), "setting": ""})
 
     df = pd.DataFrame(rows)
@@ -120,10 +122,13 @@ def main():
     ap.add_argument("--methods", nargs="*", help="run only these methods, e.g. random_bern")
     ap.add_argument("--with_duplicates", action="store_true",
                     help="revision check: Red Wine, Spambase and Libras with duplicate rows kept")
+    ap.add_argument("--config", help="alternative YAML config (sensitivity runs)")
+    ap.add_argument("--out_tag", help="write to results/runs_<tag> instead of results/runs")
+    ap.add_argument("--shuffle_labels", action="store_true", help="noise simulation")
     args = ap.parse_args()
 
-    cfg = load_config()
-    out_dir = RESULTS_DIR / "runs"
+    cfg = load_config(args.config) if args.config else load_config()
+    out_dir = RESULTS_DIR / (f"runs_{args.out_tag}" if args.out_tag else "runs")
     default_datasets = cfg["datasets"]
     if args.classifier == "logreg":
         cfg = copy.deepcopy(cfg)
@@ -154,7 +159,7 @@ def main():
     os.environ.setdefault("PYTHONWARNINGS", "ignore::UserWarning,ignore::RuntimeWarning")
     t0 = time.perf_counter()
     status = Parallel(n_jobs=n_jobs, verbose=10)(
-        delayed(run_task)(d, r, m, cfg, out_dir, data_folder) for d, r, m in tasks
+        delayed(run_task)(d, r, m, cfg, out_dir, data_folder, args.shuffle_labels) for d, r, m in tasks
     )
     print(f"finished: {status.count('done')} new, {status.count('skipped')} skipped, "
           f"{(time.perf_counter() - t0) / 60:.1f} minutes")

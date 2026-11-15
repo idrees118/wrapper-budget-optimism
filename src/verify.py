@@ -1,8 +1,6 @@
 """
 verify.py
-Two quick checks of the code, run on three small datasets (a few minutes). From the project root:
-
-    python src/verify.py
+Two checks of the code, run on three small datasets (a few minutes). From the project root:
 
 1. Reproducibility: the same tasks are run again from scratch. Every selected subset,
    inner score and test score must match results/runs/ exactly.
